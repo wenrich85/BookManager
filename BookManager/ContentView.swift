@@ -23,6 +23,10 @@ struct ContentView: View {
                .tabItem {
                    Label("Favorites", systemImage: "heart.fill")
                }
+           Settings()
+               .tabItem {
+                   Label("Settings", systemImage: "gearshape")
+               }
                
         }
        .tabViewStyle(.tabBarOnly)

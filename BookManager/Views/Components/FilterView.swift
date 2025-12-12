@@ -11,9 +11,18 @@ struct FilterView: View {
     
     @Binding var selectedGenre: Genre?
     @Binding var selectedReadingStatus: ReadingStatus?
+    @State private var workingSelectedGenre: Genre?
+    @State private var workingSelectedReadingStatus: ReadingStatus?
     
     @Environment(\.dismiss) private var dismiss
+    // This is ran only on creation
     
+    init(selectedGenre: Binding<Genre?>, selectedStatus: Binding<ReadingStatus?>){
+        self._selectedGenre = selectedGenre
+        self._workingSelectedGenre = .init(initialValue: selectedGenre.wrappedValue)
+        self._selectedReadingStatus = selectedStatus
+        self._workingSelectedReadingStatus = .init(initialValue: selectedStatus.wrappedValue)
+    }
     
     var body: some View {
         NavigationStack{

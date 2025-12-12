@@ -33,6 +33,15 @@ struct FavoritesView: View {
     var body: some View {
         NavigationStack{
             ScrollView {
+                HStack{
+                    if(selectedGenre != nil){
+                        Text("Genre: \(selectedGenre!.rawValue)")
+                    }
+                    if (selectedReadingStatus != nil){
+                        Text("Status: \(selectedReadingStatus!.rawValue)")
+                    }
+                }
+
                 LazyVGrid(columns: gridLayout) {
                     ForEach(favoriteBooks, id: \.id) { book in
                         NavigationLink(destination: DetailView(book: book)){
@@ -52,7 +61,7 @@ struct FavoritesView: View {
                     }
                 }
                 .sheet(isPresented: $isFilterSheetPresented){
-                    FilterView(selectedGenre: $selectedGenre, selectedReadingStatus: $selectedReadingStatus)
+                    FilterView(selectedGenre: $selectedGenre, selectedStatus: $selectedReadingStatus)
                 }
             
         }
