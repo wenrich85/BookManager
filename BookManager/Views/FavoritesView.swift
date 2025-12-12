@@ -10,17 +10,25 @@ import SwiftUI
 struct FavoritesView: View {
     @Binding var books: [Book]
     
+    @State var selectedGenre: Genre?
+    @State var selectedReadingStatus: ReadingStatus?
+    
     let gridLayout = [
-        GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible()),
     ]
     
+    @State private var isFilterSheetPresented: Bool = false
+    
     //Computed Variable -> as soon as books binding variable changes the new variable will compute itself to match the state
     
     private var favoriteBooks: [Binding<Book>]{
-        $books.filter {$0.wrappedValue.isFavorite}
+        $books.filter {$0.wrappedValue.isFavorite
+            && (selectedGenre == nil || $0.wrappedValue.genre == selectedGenre)
+            && (selectedReadingStatus == nil || $0.wrappedValue.status == selectedReadingStatus)
+        }
     }
+    
     
     var body: some View {
         NavigationStack{
@@ -32,9 +40,21 @@ struct FavoritesView: View {
                         }
                     }
                     
-                }
+                }.padding(.horizontal)
             }.navigationBarTitle("My Favorite Books")
                 .padding(20)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action:{isFilterSheetPresented.toggle()}){
+                            Image(systemName: "line.horizontal.3.decrease.circle")
+                                .foregroundStyle(Color(.blue))
+                        }
+                    }
+                }
+                .sheet(isPresented: $isFilterSheetPresented){
+                    FilterView(selectedGenre: $selectedGenre, selectedReadingStatus: $selectedReadingStatus)
+                }
+            
         }
     }
 }
