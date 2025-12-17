@@ -68,3 +68,15 @@ struct FavoritesView: View {
         }
     }
 }
+
+func filterFavortieBook(
+        books: [PersistentBook],
+        selectedGenre: Genre?=nil,
+        selectedReadingStatus: ReadingStatus?=nil
+    ) -> [PersistentBook] {
+    return books.filter { book in
+            book.isFavorite
+            && (selectedGenre == nil || book.genre == selectedGenre)
+            && (selectedReadingStatus == nil || book.status == selectedReadingStatus)
+        }
+}

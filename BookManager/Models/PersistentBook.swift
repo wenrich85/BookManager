@@ -44,5 +44,12 @@ class PersistentBook {
         self.coverImage = coverImage
     }
     
+    func getNameAndAuthor() -> String {
+        if(author.isEmpty){
+            return title
+        }
+        return "\(title) by \(author)"
+    }
+    
 
 }
